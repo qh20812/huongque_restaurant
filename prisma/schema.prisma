@@ -5,44 +5,44 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  output   = "../node_modules/.prisma/client"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
 // ===================== Database models =====================
 
 model Category {
-  id        Int      @id @default(autoincrement())
-  name      String   // Khai vị, Món chính, Tráng miệng
-  slug      String   @unique
-  order     Int      @default(0)
-  dishes    Dish[]
+  id     Int    @id @default(autoincrement())
+  name   String // Khai vị, Món chính, Tráng miệng
+  slug   String @unique
+  order  Int    @default(0)
+  dishes Dish[]
 }
 
 model Dish {
-  id              Int      @id @default(autoincrement())
-  categoryId      Int
-  name            String
-  slug            String   @unique
-  meaning         String?  @db.Text
-  ingredients     String?  @db.Text
-  accompaniments  String?  @db.Text
-  imageUrl        String?
-  isActive        Boolean  @default(true)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  category        Category @relation(fields: [categoryId], references: [id])
+  id             Int      @id @default(autoincrement())
+  categoryId     Int
+  name           String
+  slug           String   @unique
+  meaning        String?  @db.Text
+  ingredients    String?  @db.Text
+  accompaniments String?  @db.Text
+  imageUrl       String?
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  category       Category @relation(fields: [categoryId], references: [id])
 }
 
 model Gallery {
   id        Int      @id @default(autoincrement())
   imageUrl  String
   caption   String?
-  type      String   // "space" | "food" | "event"
+  type      String // "space" | "food" | "event"
   order     Int      @default(0)
   createdAt DateTime @default(now())
 }
@@ -69,15 +69,14 @@ model User {
 }
 
 model RestaurantInfo {
-  id          Int      @id @default(1)
-  name        String   @default("Hương Quê")
-  address     String
-  phone       String
-  email       String
-  openHours   String
-  about       String   @db.LongText
-  mission     String   @db.LongText
-  vision      String   @db.LongText
+  id           Int     @id @default(1)
+  name         String  @default("Hương Quê")
+  address      String
+  phone        String
+  email        String
+  openHours    String
+  about        String  @db.LongText
+  mission      String  @db.LongText
+  vision       String  @db.LongText
   setMenuPrice Decimal @default(2500000)
 }
-

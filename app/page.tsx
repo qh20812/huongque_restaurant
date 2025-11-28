@@ -2,7 +2,6 @@ import TopNavBar from './components/TopNavBar'
 import HeroSection from './components/Hero'
 import IntroductionSection from './components/Intro'
 import CoreValuesSection from './components/CoreValue'
-import GrandOpening from './components/GrandOpening'
 import TeamSection from './components/TeamSection'
 import Footer from './components/Footer'
 
@@ -22,8 +21,6 @@ export default function Home() {
                 <IntroductionSection />
                 {/* Core Values Section */}
                 <CoreValuesSection />
-                {/* Grand Opening */}
-                <GrandOpening />
                 {/* Team Section */}
                 <TeamSection />
               </main>
