@@ -1,12 +1,36 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function TopNavBar() {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    let active = true;
+    async function loadAuth() {
+      try {
+        const res = await fetch("/api/auth-state", { credentials: "include" });
+        if (!active) return;
+        if (res.ok) {
+          const data = await res.json();
+          setIsAuthenticated(!!data.authenticated);
+        }
+      } catch {
+        setIsAuthenticated(false);
+      } finally {
+        if (active) setAuthLoading(false);
+      }
+    }
+    loadAuth();
+    return () => {
+      active = false;
+    };
+  }, []);
 
   async function handleLogout() {
     setIsLoggingOut(true);
@@ -17,7 +41,7 @@ export default function TopNavBar() {
         console.warn(json?.message ?? "Đăng xuất thất bại");
       } else {
         console.info("Đăng xuất thành công");
-        // redirect to home and refresh
+        setIsAuthenticated(false);
         router.push("/");
         router.refresh();
       }
@@ -64,21 +88,26 @@ export default function TopNavBar() {
           >
             Liên Hệ
           </a>
-          <Link
-            className="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors"
-            href="/dang-nhap"
-          >
-            Đăng Nhập
-          </Link>
-          <button
-            className="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors"
-            onClick={handleLogout}
-            type="button"
-            aria-label="Đăng xuất"
-            disabled={isLoggingOut}
-          >
-            {isLoggingOut ? "Đang thoát..." : "Đăng Xuất"}
-          </button>
+          {authLoading ? (
+            <span className="text-text-light dark:text-text-dark text-sm">...</span>
+          ) : isAuthenticated ? (
+            <button
+              className="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors"
+              onClick={handleLogout}
+              type="button"
+              aria-label="Đăng xuất"
+              disabled={isLoggingOut}
+            >
+              {isLoggingOut ? "Đang thoát..." : "Đăng Xuất"}
+            </button>
+          ) : (
+            <Link
+              className="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors"
+              href="/dang-nhap"
+            >
+              Đăng Nhập
+            </Link>
+          )}
         </div>
       </nav>
     </header>
