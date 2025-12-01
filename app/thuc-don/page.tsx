@@ -63,9 +63,6 @@ export default async function ThucDon() {
                                       <SquareImage src={item.dish.imageUrl || ''} alt={item.dish.name} size={64} />
                                       <div className="min-w-0">
                                         <span>{item.dish.name}</span>
-                                        {item.dish.price ? (
-                                          <div className="text-primary font-bold">{Intl.NumberFormat('vi-VN').format(item.dish.price)} VNĐ</div>
-                                        ) : null}
                                         {item.dish.description ? (
                                           <p className="text-text-muted-light dark:text-text-muted-dark text-sm mt-1 wrap-break-word">{item.dish.description}</p>
                                         ) : null}

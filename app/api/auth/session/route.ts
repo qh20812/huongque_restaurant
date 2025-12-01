@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
 type JWTPayload = {
-  id: string;
+  id: number;
   email: string;
   role: string;
 };

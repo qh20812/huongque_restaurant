@@ -1,10 +1,10 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import InputField from '../components/UI/InputField'
 
-export default function DangNhap() {
+function DangNhapForm() {
   const searchParams = useSearchParams()
   const redirectTo = searchParams.get('redirect') || null
   const [identifier, setIdentifier] = useState('')
@@ -163,5 +163,13 @@ export default function DangNhap() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function DangNhap() {
+  return (
+    <Suspense fallback={<div>Đang tải...</div>}>
+      <DangNhapForm />
+    </Suspense>
   )
 }
