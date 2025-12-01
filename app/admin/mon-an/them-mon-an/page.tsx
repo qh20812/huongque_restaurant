@@ -5,6 +5,7 @@ import Image from "next/image";
 import Breadcrumbs from "../../components/Breadcrumb";
 import PageTitle from "../../components/PageTitle";
 import DescriptionField from "../../components/DescriptionField";
+import InputField from "../../components/InputField";
 
 type Category = {
   id: number;
@@ -17,7 +18,6 @@ export default function ThemMonAn() {
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
   const [desc, setDesc] = useState("");
-  const [price, setPrice] = useState<string>("");
   const [categoryId, setCategoryId] = useState<string>("");
   const [imageUrl, setImageUrl] = useState("");
   
@@ -107,10 +107,6 @@ export default function ThemMonAn() {
       alert('Vui lòng chọn danh mục');
       return;
     }
-    if (!price || isNaN(Number(price))) {
-      alert('Vui lòng nhập giá hợp lệ');
-      return;
-    }
 
     setLoading(true);
     setError('');
@@ -127,7 +123,6 @@ export default function ThemMonAn() {
           slug: slug.trim(),
           description: desc.trim() || null,
           categoryId: Number(categoryId),
-          price: Number(price),
           imageUrl: finalImageUrl,
           isActive: true,
         }),
@@ -168,25 +163,21 @@ export default function ThemMonAn() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left column */}
           <div className="lg:col-span-2 flex flex-col gap-6">
-            <label className="flex flex-col w-full">
-              <p className="text-text-light dark:text-background-light text-base font-medium pb-2">Tên món</p>
-              <input
-                className="form-input h-14 rounded-lg border border-border-light dark:border-primary/20 bg-background-light dark:bg-background-dark p-[15px] text-base text-text-light dark:text-white placeholder:text-text-muted-light focus:outline-0 focus:ring-2 focus:ring-primary/50"
-                placeholder="Ví dụ: Lẩu cá linh bông điên điển"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </label>
+            <InputField
+              label="Tên món"
+              placeholder="Ví dụ: Lẩu cá linh bông điên điển"
+              value={name}
+              onChange={setName}
+              required
+            />
 
-            <label className="flex flex-col w-full">
-              <p className="text-text-light dark:text-background-light text-base font-medium pb-2">Slug (URL)</p>
-              <input
-                className="form-input h-14 rounded-lg border border-border-light dark:border-primary/20 bg-background-light dark:bg-background-dark p-[15px] text-base text-text-light dark:text-white placeholder:text-text-muted-light focus:outline-0 focus:ring-2 focus:ring-primary/50"
-                placeholder="Tự động tạo từ tên món"
-                value={slug}
-                onChange={(e) => setSlug(e.target.value)}
-              />
-            </label>
+            <InputField
+              label="Slug (URL)"
+              placeholder="Tự động tạo từ tên món"
+              value={slug}
+              onChange={setSlug}
+              helperText="URL thân thiện được tạo tự động từ tên món"
+            />
 
             <DescriptionField
               label="Mô tả chi tiết"
@@ -196,18 +187,7 @@ export default function ThemMonAn() {
               rows={5}
             />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <label className="flex flex-col w-full">
-                <p className="text-text-light dark:text-background-light text-base font-medium pb-2">Giá tiền (VNĐ)</p>
-                <input
-                  className="form-input h-14 rounded-lg border border-border-light dark:border-primary/20 bg-background-light dark:bg-background-dark p-[15px] text-base text-text-light dark:text-white placeholder:text-text-muted-light focus:outline-0 focus:ring-2 focus:ring-primary/50"
-                  placeholder="Ví dụ: 250000"
-                  type="number"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                />
-              </label>
-              <label className="flex flex-col w-full">
+            <label className="flex flex-col w-full">
                 <p className="text-text-light dark:text-background-light text-base font-medium pb-2">Danh mục</p>
                 <select
                   className="form-select h-14 rounded-lg border border-border-light dark:border-primary/20 bg-background-light dark:bg-background-dark px-[15px] text-base text-text-light dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50"
@@ -221,18 +201,14 @@ export default function ThemMonAn() {
                   ))}
                 </select>
               </label>
-            </div>
 
-            <label className="flex flex-col w-full">
-              <p className="text-text-light dark:text-background-light text-base font-medium pb-2">URL hình ảnh</p>
-              <input
-                className="form-input h-14 rounded-lg border border-border-light dark:border-primary/20 bg-background-light dark:bg-background-dark p-[15px] text-base text-text-light dark:text-white placeholder:text-text-muted-light focus:outline-0 focus:ring-2 focus:ring-primary/50"
-                placeholder="https://example.com/image.jpg"
-                value={imageUrl}
-                onChange={(e) => setImageUrl(e.target.value)}
-              />
-              <p className="text-xs text-text-muted-light dark:text-text-muted-dark mt-1">Hoặc chọn file ảnh bên phải (upload tự động sẽ được thêm sau)</p>
-            </label>
+            <InputField
+              label="URL hình ảnh"
+              placeholder="https://example.com/image.jpg"
+              value={imageUrl}
+              onChange={setImageUrl}
+              helperText="Hoặc chọn file ảnh bên phải (upload tự động sẽ được thêm sau)"
+            />
           </div>
 
           {/* Right column: Image preview */}

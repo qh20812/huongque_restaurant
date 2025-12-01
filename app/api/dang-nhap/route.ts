@@ -42,7 +42,7 @@ export async function POST(req: Request) {
     const payload = { id: user.id, email: user.email, role: user.role } as const;
     const token = jwt.sign(payload, secret, { expiresIn: "1h" });
 
-    const res = NextResponse.json({ message: "Đăng nhập thành công", user: { id: user.id, email: user.email, name: user.name } });
+    const res = NextResponse.json({ message: "Đăng nhập thành công", user: { id: user.id, email: user.email, name: user.name, role: user.role } });
 
     // Set token cookie (HttpOnly)
     const cookieOptions = {

@@ -23,13 +23,14 @@ export async function GET(req: NextRequest) {
       where.category = { slug: categorySlug };
     }
 
+    // Log the constructed filter for diagnostics
+    console.log('[GET /api/admin/mon-an] where filter:', JSON.stringify(where));
+
     const [total, items] = await Promise.all([
       prisma.dish.count({ where }),
       prisma.dish.findMany({
         where,
-        include: {
-          category: true,
-        },
+        include: { category: true },
         orderBy: { updatedAt: 'desc' },
         skip: (page - 1) * pageSize,
         take: pageSize,
@@ -43,7 +44,6 @@ export async function GET(req: NextRequest) {
         slug: d.slug,
         description: d.description,
         imageUrl: d.imageUrl,
-        price: d.price,
         isActive: d.isActive,
         category: d.category ? { 
           id: d.category.id, 
@@ -60,9 +60,11 @@ export async function GET(req: NextRequest) {
         totalPages: Math.ceil(total / pageSize),
       },
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
+    console.error('[GET /api/admin/mon-an] ERROR:', err);
+    const message = err instanceof Error ? err.message : 'Unknown error';
     return new Response(
-      JSON.stringify({ error: 'Failed to fetch dishes', detail: err?.message }), 
+      JSON.stringify({ error: 'Failed to fetch dishes', detail: message }), 
       {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
@@ -74,7 +76,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { name, slug, description, categoryId, imageUrl, price, isActive } = body;
+    const { name, slug, description, categoryId, imageUrl, isActive } = body;
 
     if (!name || !slug || !categoryId) {
       return new Response(
@@ -86,6 +88,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    console.log('[POST /api/admin/mon-an] body:', body);
+
     const dish = await prisma.dish.create({
       data: {
         name,
@@ -93,7 +97,6 @@ export async function POST(req: NextRequest) {
         description,
         categoryId: Number(categoryId),
         imageUrl,
-        price: price ? Number(price) : null,
         isActive: isActive !== undefined ? Boolean(isActive) : true,
       },
       include: {
@@ -109,7 +112,6 @@ export async function POST(req: NextRequest) {
         slug: dish.slug,
         description: dish.description,
         imageUrl: dish.imageUrl,
-        price: dish.price,
         isActive: dish.isActive,
         category: dish.category ? {
           id: dish.category.id,
@@ -118,8 +120,10 @@ export async function POST(req: NextRequest) {
         } : null,
       },
     });
-  } catch (err: any) {
-    if (err.code === 'P2002') {
+  } catch (err: unknown) {
+    console.error('[POST /api/admin/mon-an] ERROR:', err);
+    const code = typeof err === 'object' && err && 'code' in err ? (err as { code?: string }).code : undefined;
+    if (code === 'P2002') {
       return new Response(
         JSON.stringify({ error: 'Dish with this slug already exists' }), 
         {
@@ -129,7 +133,7 @@ export async function POST(req: NextRequest) {
       );
     }
     return new Response(
-      JSON.stringify({ error: 'Failed to create dish', detail: err?.message }), 
+      JSON.stringify({ error: 'Failed to create dish', detail: err instanceof Error ? err.message : 'Unknown error' }), 
       {
         status: 500,
         headers: { 'Content-Type': 'application/json' },

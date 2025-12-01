@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Button from "../components/Button";
+import DataTable from "../components/DataTable";
 
 type Category = {
   id: number;
@@ -13,7 +14,6 @@ type Dish = {
   id: number;
   name: string;
   description: string | null;
-  price: number | null;
   imageUrl: string | null;
   category: Category | null;
 };
@@ -79,19 +79,52 @@ export default function QuanLyMonAn() {
     }
   };
 
-  const formatPrice = (price: number | null) => {
-    if (!price) return 'Chưa có giá';
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
-  };
-
-  const getCategoryBadgeClass = (categoryName: string | undefined) => {
+  function getCategoryBadgeClass(categoryName?: string) {
     if (categoryName === "Khai vị") {
       return "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200";
     } else if (categoryName === "Tráng miệng") {
       return "bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200";
     }
     return "bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200";
-  };
+  }
+
+  const columns = [
+    {
+      header: "Tên món",
+      render: (dish: Dish) => (
+        <div className="flex items-center gap-4">
+          <div
+            className="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-12"
+            style={{ backgroundImage: `url('${dish.imageUrl || "/placeholder.jpg"}')` }}
+          />
+          <div>
+            <p className="font-medium text-text-light dark:text-text-dark">{dish.name}</p>
+          </div>
+        </div>
+      ),
+    },
+    {
+      header: "Mô tả",
+      render: (dish: Dish) => (
+        <span className="text-sm text-text-muted-light dark:text-text-muted-dark max-w-xs truncate block">
+          {dish.description}
+        </span>
+      ),
+    },
+    {
+      header: "Danh mục",
+      render: (dish: Dish) => (
+        <span
+          className={
+            `inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ` +
+            getCategoryBadgeClass(dish.category?.name)
+          }
+        >
+          {dish.category?.name || "Chưa phân loại"}
+        </span>
+      ),
+    },
+  ];
 
   return (
     <div className="space-y-6">
@@ -134,90 +167,15 @@ export default function QuanLyMonAn() {
         </Link>
       </div>
 
-      <div className="rounded-xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left">
-            <thead className="bg-black/5 dark:bg-white/5">
-              <tr>
-                <th className="px-6 py-3 text-sm font-medium text-text-light dark:text-text-dark">Tên món</th>
-                <th className="px-6 py-3 text-sm font-medium text-text-light dark:text-text-dark">Mô tả</th>
-                <th className="px-6 py-3 text-sm font-medium text-text-light dark:text-text-dark">Giá</th>
-                <th className="px-6 py-3 text-sm font-medium text-text-light dark:text-text-dark">Danh mục</th>
-                <th className="px-6 py-3 text-sm font-medium text-text-light dark:text-text-dark">Hành động</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border-light dark:divide-border-dark">
-              {loading ? (
-                <tr>
-                  <td colSpan={5} className="px-6 py-8 text-center text-text-muted-light dark:text-text-muted-dark">
-                    Đang tải dữ liệu...
-                  </td>
-                </tr>
-              ) : error ? (
-                <tr>
-                  <td colSpan={5} className="px-6 py-8 text-center text-red-600 dark:text-red-400">
-                    {error}
-                  </td>
-                </tr>
-              ) : dishes.length === 0 ? (
-                <tr>
-                  <td colSpan={5} className="px-6 py-8 text-center text-text-muted-light dark:text-text-muted-dark">
-                    Không tìm thấy món ăn nào
-                  </td>
-                </tr>
-              ) : (
-                dishes.map((dish) => (
-                  <tr key={dish.id}>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-4">
-                        <div
-                          className="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-12"
-                          style={{ backgroundImage: `url('${dish.imageUrl || '/placeholder.jpg'}')` }}
-                        />
-                        <div>
-                          <p className="font-medium text-text-light dark:text-text-dark">{dish.name}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 text-sm text-text-muted-light dark:text-text-muted-dark max-w-xs truncate">
-                      {dish.description}
-                    </td>
-                    <td className="px-6 py-4 text-sm font-medium text-text-light dark:text-text-dark">
-                      {formatPrice(dish.price)}
-                    </td>
-                    <td className="px-6 py-4">
-                      <span
-                        className={
-                          `inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ` +
-                          getCategoryBadgeClass(dish.category?.name)
-                        }
-                      >
-                        {dish.category?.name || 'Chưa phân loại'}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex gap-2">
-                        <Link href={`/admin/mon-an/sua-mon-an/${dish.id}`}>
-                          <button className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 text-text-muted-light dark:text-text-muted-dark" aria-label="Sửa">
-                            <span className="material-symbols-outlined text-base">edit</span>
-                          </button>
-                        </Link>
-                        <button 
-                          onClick={() => handleDelete(dish.id)}
-                          className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 text-red-600 dark:text-red-400" 
-                          aria-label="Xóa"
-                        >
-                          <span className="material-symbols-outlined text-base">delete</span>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <DataTable
+        items={dishes}
+        columns={columns}
+        loading={loading}
+        error={error}
+        buildEditHref={(id) => `/admin/mon-an/sua-mon-an/${id}`}
+        onDelete={handleDelete}
+        emptyMessage="Không tìm thấy món ăn nào"
+      />
     </div>
   );
 }

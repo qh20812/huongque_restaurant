@@ -62,13 +62,12 @@ export async function PUT(
     }
 
     const body = await req.json();
-    const { name, slug, description, imageUrl, price, servesMin, servesMax, isActive } = body;
+    const { name, slug, description, price, servesMin, servesMax, isActive } = body;
 
     const updateData: Record<string, unknown> = {};
     if (name !== undefined) updateData.name = String(name).trim();
     if (slug !== undefined) updateData.slug = String(slug).trim();
     if (description !== undefined) updateData.description = description;
-    if (imageUrl !== undefined) updateData.imageUrl = imageUrl;
     if (price !== undefined) updateData.price = price != null ? Number(price) : null;
     if (servesMin !== undefined) updateData.servesMin = servesMin != null ? Number(servesMin) : null;
     if (servesMax !== undefined) updateData.servesMax = servesMax != null ? Number(servesMax) : null;

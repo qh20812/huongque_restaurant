@@ -49,7 +49,6 @@ model Dish {
   ingredients    String?  @db.Text
   accompaniments String?  @db.Text
   imageUrl       String?  @db.LongText // Changed to LongText to support base64 encoded images
-  price          Int?               // VNĐ price shown in UI forms and listings
   isActive       Boolean  @default(true)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
@@ -152,7 +151,6 @@ model SetMenu {
   name        String
   slug        String   @unique
   description String?  @db.Text
-  imageUrl    String?
   price       Int      // VNĐ total price for the set
   servesMin   Int?     // e.g., 4
   servesMax   Int?     // e.g., 6

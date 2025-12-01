@@ -1,5 +1,9 @@
 "use client";
 import { useState } from "react";
+import Button from "@/app/admin/components/Button";
+import InputField from "@/app/admin/components/InputField";
+import DescriptionField from "@/app/admin/components/DescriptionField";
+import Breadcrumbs from "@/app/admin/components/Breadcrumb";
 
 type DishItem = {
   id: string;
@@ -216,21 +220,12 @@ export default function SuaSetMenu() {
 
   return (
     <div className="space-y-6">
-      {/* Breadcrumb */}
-      <div className="flex flex-wrap gap-2">
-        <a
-          href="/admin/set-menu"
-          className="text-text-muted-light dark:text-text-muted-dark text-base font-medium hover:text-primary dark:hover:text-primary"
-        >
-          Quản lý Set Menu
-        </a>
-        <span className="text-text-muted-light dark:text-text-muted-dark text-base font-medium">
-          /
-        </span>
-        <span className="text-text-light dark:text-text-dark text-base font-medium">
-          Sửa Set Menu
-        </span>
-      </div>
+      <Breadcrumbs
+        items={[
+          { label: "Quản lý Set Menu", href: "/admin/set-menu" },
+          { label: "Sửa Set Menu", current: true },
+        ]}
+      />
 
       {/* Header */}
       <div className="flex flex-wrap justify-between gap-3">
@@ -252,98 +247,71 @@ export default function SuaSetMenu() {
         <div className="flex flex-col gap-8">
           {/* Basic Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <label className="flex flex-col w-full">
-              <span className="text-text-light dark:text-text-dark text-base font-medium leading-normal pb-2">
-                Tên Set Menu
-              </span>
-              <input
-                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-light dark:text-text-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark focus:border-primary h-14 placeholder:text-text-muted-light px-[15px] text-base font-normal leading-normal"
-                placeholder="Ví dụ: Set Menu Lẩu Mắm Miền Tây"
-                type="text"
+            <div className="md:col-span-2">
+              <InputField
+                label="Tên Set Menu"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={setName}
+                placeholder="Ví dụ: Set Menu Sum Vầy"
                 required
               />
-            </label>
-            <label className="flex flex-col w-full">
-              <span className="text-text-light dark:text-text-dark text-base font-medium leading-normal pb-2">
-                Giá (VNĐ)
-              </span>
-              <input
-                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-light dark:text-text-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark focus:border-primary h-14 placeholder:text-text-muted-light px-[15px] text-base font-normal leading-normal"
-                placeholder="Nhập giá"
-                type="number"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                required
+            </div>
+            <div className="md:col-span-2">
+              <InputField
+                label="Slug"
+                value={slug}
+                onChange={(value) => {
+                  setSlugEdited(true);
+                  setSlug(value);
+                }}
+                placeholder="Tự tạo từ tên, không điều chỉnh được"
+                helperText="URL thân thiện, tự động tạo từ tên"
+                disabled
               />
-            </label>
+            </div>
           </div>
 
-          {/* Slug */}
-          <label className="flex flex-col w-full">
-            <span className="text-text-light dark:text-text-dark text-base font-medium leading-normal pb-2">
-              Slug
-            </span>
-            <input
-              className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-light dark:text-text-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark focus:border-primary h-14 placeholder:text-text-muted-light px-[15px] text-base font-normal leading-normal"
-              placeholder="auto từ tên, có thể chỉnh"
-              type="text"
-              value={slugEdited ? slug : name
-                .toLowerCase()
-                .normalize("NFD")
-                .replace(/[\u0300-\u036f]/g, "")
-                .replace(/[đĐ]/g, "d")
-                .replace(/[^a-z0-9\s-]/g, "")
-                .replace(/\s+/g, "-")
-                .replace(/-+/g, "-")
-                .replace(/^-+|-+$/g, "")}
-              onChange={(e) => {
-                setSlugEdited(true);
-                setSlug(e.target.value);
-              }}
-            />
-          </label>
-
-          <label className="flex flex-col w-full">
-            <span className="text-text-light dark:text-text-dark text-base font-medium leading-normal pb-2">
-              Mô tả
-            </span>
-            <textarea
-              className="form-textarea flex w-full min-w-0 flex-1 resize-y overflow-hidden rounded-lg text-text-light dark:text-text-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark focus:border-primary min-h-28 placeholder:text-text-muted-light p-[15px] text-base font-normal leading-normal"
-              placeholder="Mô tả chi tiết về set menu..."
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </label>
+          <DescriptionField
+            label="Mô tả"
+            value={description}
+            onChange={setDescription}
+            placeholder="Mô tả chi tiết về set menu..."
+            rows={4}
+          />
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <label className="flex flex-col w-full">
-              <span className="text-text-light dark:text-text-dark text-base font-medium leading-normal pb-2">
-                Phục vụ tối thiểu
-              </span>
-              <input
-                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-light dark:text-text-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark focus:border-primary h-14 placeholder:text-text-muted-light px-[15px] text-base font-normal leading-normal"
-                placeholder="Số người"
+            <div>
+              <InputField
+                label="Giá (VNĐ)"
+                type="number"
+                value={price}
+                onChange={setPrice}
+                placeholder="899000"
+                required
+              />
+            </div>
+            <div>
+              <InputField
+                label="Phục vụ tối thiểu"
                 type="number"
                 value={servesMin}
-                onChange={(e) => setServesMin(e.target.value)}
-                min="1"
+                onChange={setServesMin}
+                placeholder="4"
               />
-            </label>
-            <label className="flex flex-col w-full">
-              <span className="text-text-light dark:text-text-dark text-base font-medium leading-normal pb-2">
-                Phục vụ tối đa
-              </span>
-              <input
-                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-light dark:text-text-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark focus:border-primary h-14 placeholder:text-text-muted-light px-[15px] text-base font-normal leading-normal"
-                placeholder="Số người"
+            </div>
+            <div>
+              <InputField
+                label="Phục vụ tối đa"
                 type="number"
                 value={servesMax}
-                onChange={(e) => setServesMax(e.target.value)}
-                min="1"
+                onChange={setServesMax}
+                placeholder="6"
               />
-            </label>
+            </div>
+          </div>
+
+          {/* Status */}
+          <div>
             <label className="flex flex-col w-full">
               <span className="text-text-light dark:text-text-dark text-base font-medium leading-normal pb-2">
                 Trạng thái
@@ -474,19 +442,16 @@ export default function SuaSetMenu() {
 
         {/* Action Buttons */}
         <div className="flex justify-end gap-4 mt-8 pt-6 border-t border-border-light dark:border-border-dark">
-          <button
-            className="flex items-center justify-center h-12 px-6 rounded-lg bg-gray-200 dark:bg-gray-700 text-text-light dark:text-text-dark text-base font-medium hover:bg-gray-300 dark:hover:bg-gray-600"
+          <Button
             type="button"
+            variant="secondary"
             onClick={() => window.history.back()}
           >
             Hủy
-          </button>
-          <button
-            className="flex items-center justify-center h-12 px-8 rounded-lg bg-primary text-white text-base font-medium hover:bg-primary/90"
-            type="submit"
-          >
+          </Button>
+          <Button type="submit" icon="save" iconPosition="left">
             Cập nhật
-          </button>
+          </Button>
         </div>
       </form>
     </div>

@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
 import Button from "@/app/admin/components/Button";
+import DataTable from "@/app/admin/components/DataTable";
 import { useRouter } from "next/navigation";
 
 type SetMenu = {
@@ -130,96 +131,63 @@ export default function QuanLySetMenu() {
         </Button>
       </div>
 
-      <div className="rounded-xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left">
-            <thead className="bg-black/5 dark:bg-white/5">
-              <tr>
-                <th className="px-6 py-3 text-sm font-medium text-text-light dark:text-text-dark">
-                  Tên Set Menu
-                </th>
-                <th className="px-6 py-3 text-sm font-medium text-text-light dark:text-text-dark">
-                  Mô tả
-                </th>
-                <th className="px-6 py-3 text-sm font-medium text-text-light dark:text-text-dark">
-                  Giá
-                </th>
-                <th className="px-6 py-3 text-sm font-medium text-text-light dark:text-text-dark">
-                  Phục vụ
-                </th>
-                <th className="px-6 py-3 text-sm font-medium text-text-light dark:text-text-dark">
-                  Trạng thái
-                </th>
-                <th className="px-6 py-3 text-sm font-medium text-text-light dark:text-text-dark">
-                  Hành động
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border-light dark:divide-border-dark">
-              {filtered.map((setMenu) => (
-                <tr key={setMenu.id}>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-4">
-                      <div
-                        className="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-12"
-                        style={{ backgroundImage: `url('${setMenu.imageUrl || ''}')` }}
-                      />
-                      <div>
-                        <p className="font-medium text-text-light dark:text-text-dark">
-                          {setMenu.name}
-                        </p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-sm text-text-muted-light dark:text-text-muted-dark max-w-xs truncate">
-                    {setMenu.description || '-'}
-                  </td>
-                  <td className="px-6 py-4 text-sm font-medium text-text-light dark:text-text-dark">
-                    {formatPriceVND(setMenu.price)}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-text-light dark:text-text-dark">
-                    {servesLabel(setMenu.servesMin, setMenu.servesMax)}
-                  </td>
-                  <td className="px-6 py-4">
-                    <span
-                      className={
-                        `inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ` +
-                        (setMenu.isActive
-                          ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200"
-                          : "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200")
-                      }
-                    >
-                      {setMenu.isActive ? "Đang hoạt động" : "Không hoạt động"}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex gap-2">
-                      <button
-                        className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 text-text-muted-light dark:text-text-muted-dark"
-                        aria-label="Sửa"
-                        onClick={() => router.push(`/admin/set-menu/sua/${setMenu.id}`)}
-                      >
-                        <span className="material-symbols-outlined text-base">
-                          edit
-                        </span>
-                      </button>
-                      <button
-                        className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 text-red-600 dark:text-red-400"
-                        aria-label="Xóa"
-                        onClick={() => handleDelete(setMenu.id)}
-                      >
-                        <span className="material-symbols-outlined text-base">
-                          delete
-                        </span>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <DataTable
+        items={filtered}
+        columns={[
+          {
+            header: "Tên Set Menu",
+            render: (setMenu: SetMenu) => (
+              <p className="font-medium text-text-light dark:text-text-dark">
+                {setMenu.name}
+              </p>
+            ),
+          },
+          {
+            header: "Mô tả",
+            render: (setMenu: SetMenu) => (
+              <span className="text-sm text-text-muted-light dark:text-text-muted-dark max-w-xs truncate block">
+                {setMenu.description || "-"}
+              </span>
+            ),
+          },
+          {
+            header: "Giá",
+            render: (setMenu: SetMenu) => (
+              <span className="text-sm font-medium text-text-light dark:text-text-dark">
+                {formatPriceVND(setMenu.price)}
+              </span>
+            ),
+          },
+          {
+            header: "Phục vụ",
+            render: (setMenu: SetMenu) => (
+              <span className="text-sm text-text-light dark:text-text-dark">
+                {servesLabel(setMenu.servesMin, setMenu.servesMax)}
+              </span>
+            ),
+          },
+          {
+            header: "Trạng thái",
+            render: (setMenu: SetMenu) => (
+              <span
+                className={
+                  `inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ` +
+                  (setMenu.isActive
+                    ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200"
+                    : "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200")
+                }
+              >
+                {setMenu.isActive ? "Đang hoạt động" : "Không hoạt động"}
+              </span>
+            ),
+          },
+        ]}
+        loading={loading}
+        error={error}
+        buildEditHref={(id) => `/admin/set-menu/sua/${id}`}
+        onDelete={handleDelete}
+        emptyMessage="Không tìm thấy set menu nào"
+      />
     </div>
   );
 }

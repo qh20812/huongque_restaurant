@@ -1,7 +1,10 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Button from "@/app/admin/components/Button";
+import InputField from "@/app/admin/components/InputField";
+import DescriptionField from "@/app/admin/components/DescriptionField";
+import Breadcrumbs from "@/app/admin/components/Breadcrumb";
 
 type DishOption = { id: number; name: string; categoryId: number; categoryName: string };
 
@@ -25,7 +28,6 @@ export default function ThemSetMenuMoi() {
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
   const [description, setDescription] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
   const [price, setPrice] = useState("");
   const [servesMin, setServesMin] = useState("");
   const [servesMax, setServesMax] = useState("");
@@ -39,9 +41,7 @@ export default function ThemSetMenuMoi() {
   ]);
 
   const [availableDishes, setAvailableDishes] = useState<DishOption[]>([]);
-  const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [error, setError] = useState("");
 
   // Auto-generate slug from name (if slug empty)
   useEffect(() => {
@@ -64,8 +64,6 @@ export default function ThemSetMenuMoi() {
     const controller = new AbortController();
     async function fetchDishes() {
       try {
-        setLoading(true);
-        setError("");
         const res = await fetch(`/api/admin/mon-an?page=1&pageSize=200`, { signal: controller.signal });
         const data = await res.json();
         if (!res.ok) throw new Error(data?.error || "Không thể tải danh sách món ăn");
@@ -80,9 +78,7 @@ export default function ThemSetMenuMoi() {
         );
       } catch (err) {
         if (err && typeof err === 'object' && 'name' in err && (err as { name?: string }).name === 'AbortError') return;
-        setError(err instanceof Error ? err.message : "Không thể tải danh sách món ăn");
-      } finally {
-        setLoading(false);
+        console.error("Failed to fetch dishes:", err);
       }
     }
     fetchDishes();
@@ -138,13 +134,11 @@ export default function ThemSetMenuMoi() {
     if (!price || isNaN(Number(price))) return alert("Vui lòng nhập giá hợp lệ");
 
     setSaving(true);
-    setError("");
     try {
       const payload = {
         name: name.trim(),
         slug: slug.trim(),
         description: description.trim() || null,
-        imageUrl: imageUrl.trim() || null,
         price: Number(price),
         servesMin: servesMin ? Number(servesMin) : null,
         servesMax: servesMax ? Number(servesMax) : null,
@@ -182,6 +176,12 @@ export default function ThemSetMenuMoi() {
 
   return (
     <div className="space-y-6">
+      <Breadcrumbs
+        items={[
+          { label: "Quản lý Set Menu", href: "/admin/set-menu" },
+          { label: "Thêm Set Menu mới", current: true },
+        ]}
+      />
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-text-light dark:text-text-dark">Thêm Set Menu mới</h1>
@@ -194,60 +194,45 @@ export default function ThemSetMenuMoi() {
           <h3 className="text-lg font-bold text-text-light dark:text-text-dark mb-4">Thông tin cơ bản</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-text-light dark:text-text-dark mb-2">Tên Set Menu <span className="text-red-500">*</span></label>
-              <input
-                type="text"
+              <InputField
+                label="Tên Set Menu"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full px-4 py-2 rounded-lg border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark focus:ring-primary focus:border-primary"
+                onChange={setName}
                 placeholder="Ví dụ: Set Menu Sum Vầy"
                 required
               />
             </div>
 
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-text-light dark:text-text-dark mb-2">Slug</label>
-              <input
-                type="text"
+              <InputField
+                label="Slug"
                 value={slug}
-                onChange={(e) => {
+                onChange={(value) => {
                   setSlugEdited(true);
-                  setSlug(e.target.value);
+                  setSlug(value);
                 }}
-                className="w-full px-4 py-2 rounded-lg border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark focus:ring-primary focus:border-primary"
-                placeholder="auto từ tên, có thể chỉnh"
+                placeholder="Tự tạo từ tên, không điều chỉnh được"
+                helperText="URL thân thiện, tự động tạo từ tên"
+                disabled
               />
             </div>
 
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-text-light dark:text-text-dark mb-2">Mô tả</label>
-              <textarea
+              <DescriptionField
+                label="Mô tả"
                 value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="w-full px-4 py-2 rounded-lg border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark focus:ring-primary focus:border-primary"
+                onChange={setDescription}
                 placeholder="Mô tả ngắn gọn về set menu..."
-                rows={3}
-              />
-            </div>
-
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-text-light dark:text-text-dark mb-2">Ảnh (URL)</label>
-              <input
-                type="text"
-                value={imageUrl}
-                onChange={(e) => setImageUrl(e.target.value)}
-                className="w-full px-4 py-2 rounded-lg border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark focus:ring-primary focus:border-primary"
-                placeholder="https://..."
+                rows={4}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-text-light dark:text-text-dark mb-2">Giá (VNĐ) <span className="text-red-500">*</span></label>
-              <input
+              <InputField
+                label="Giá (VNĐ)"
                 type="number"
                 value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                className="w-full px-4 py-2 rounded-lg border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark focus:ring-primary focus:border-primary"
+                onChange={setPrice}
                 placeholder="899000"
                 required
               />
@@ -255,25 +240,21 @@ export default function ThemSetMenuMoi() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-text-light dark:text-text-dark mb-2">Phục vụ tối thiểu</label>
-                <input
+                <InputField
+                  label="Phục vụ tối thiểu"
                   type="number"
                   value={servesMin}
-                  onChange={(e) => setServesMin(e.target.value)}
-                  className="w-full px-4 py-2 rounded-lg border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark focus:ring-primary focus:border-primary"
+                  onChange={setServesMin}
                   placeholder="4"
-                  min="1"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-text-light dark:text-text-dark mb-2">Phục vụ tối đa</label>
-                <input
+                <InputField
+                  label="Phục vụ tối đa"
                   type="number"
                   value={servesMax}
-                  onChange={(e) => setServesMax(e.target.value)}
-                  className="w-full px-4 py-2 rounded-lg border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark focus:ring-primary focus:border-primary"
+                  onChange={setServesMax}
                   placeholder="6"
-                  min="1"
                 />
               </div>
             </div>

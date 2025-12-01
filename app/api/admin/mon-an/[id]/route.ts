@@ -42,7 +42,6 @@ export async function GET(
         slug: dish.slug,
         description: dish.description,
         imageUrl: dish.imageUrl,
-        price: dish.price,
         categoryId: dish.categoryId,
         isActive: dish.isActive,
         category: dish.category ? {
@@ -85,7 +84,7 @@ export async function PUT(
     }
 
     const body = await req.json();
-    const { name, slug, description, categoryId, imageUrl, price, isActive } = body;
+    const { name, slug, description, categoryId, imageUrl, isActive } = body;
 
     const updateData: Record<string, unknown> = {};
     if (name !== undefined) updateData.name = name;
@@ -93,7 +92,6 @@ export async function PUT(
     if (description !== undefined) updateData.description = description;
     if (categoryId !== undefined) updateData.categoryId = Number(categoryId);
     if (imageUrl !== undefined) updateData.imageUrl = imageUrl;
-    if (price !== undefined) updateData.price = price ? Number(price) : null;
     if (isActive !== undefined) updateData.isActive = Boolean(isActive);
 
     const dish = await prisma.dish.update({
@@ -110,7 +108,6 @@ export async function PUT(
         slug: dish.slug,
         description: dish.description,
         imageUrl: dish.imageUrl,
-        price: dish.price,
         isActive: dish.isActive,
         category: dish.category ? {
           id: dish.category.id,

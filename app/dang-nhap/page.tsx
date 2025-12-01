@@ -1,9 +1,12 @@
 "use client"
 
 import React, { useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import InputField from '../components/UI/InputField'
 
 export default function DangNhap() {
+  const searchParams = useSearchParams()
+  const redirectTo = searchParams.get('redirect') || null
   const [identifier, setIdentifier] = useState('')
   const [password, setPassword] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -48,9 +51,34 @@ export default function DangNhap() {
       } else {
         setMessageType('success')
         setMessage(getMsg(json, 'Đăng nhập thành công'))
-        setTimeout(() => {
-          window.location.href = '/'
-        }, 900)
+        
+        // Check if user is admin and redirect accordingly
+        const userRole = typeof json === 'object' && json !== null && 'user' in json 
+          ? (json as { user?: { role?: string } }).user?.role 
+          : null
+        
+        // Use redirect parameter if present, otherwise default based on role
+        const redirectUrl = redirectTo || (userRole === 'admin' ? '/admin' : '/')
+        
+        // Wait longer to ensure cookie is set, then do full page reload
+        setTimeout(async () => {
+          // Verify session before redirect
+          try {
+            const sessionCheck = await fetch('/api/auth/session', { credentials: 'include' })
+            if (sessionCheck.ok) {
+              // Session is valid, now redirect with full page reload
+              window.location.href = redirectUrl
+            } else {
+              console.error('Session check failed after login')
+              setMessageType('error')
+              setMessage('Lỗi xác thực, vui lòng thử lại')
+            }
+          } catch (err) {
+            console.error('Session verification error:', err)
+            // Fallback: just redirect anyway
+            window.location.href = redirectUrl
+          }
+        }, 1500)
       }
     } catch (err) {
       console.error('/api/dang-nhap fetch error', err)
