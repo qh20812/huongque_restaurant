@@ -1,2 +1,2 @@
 -- AlterTable
-ALTER TABLE `setmenu` ADD COLUMN `imageUrl` VARCHAR(191) NULL;
+ALTER TABLE `SetMenu` ADD COLUMN `imageUrl` VARCHAR(191) NULL;

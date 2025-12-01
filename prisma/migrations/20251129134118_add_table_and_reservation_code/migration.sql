@@ -6,14 +6,14 @@
 
 */
 -- AlterTable
-ALTER TABLE `reservation` ADD COLUMN `code` VARCHAR(191) NULL,
-    ADD COLUMN `tableId` INTEGER NULL;
+ALTER TABLE `Reservation` ADD COLUMN `code` VARCHAR(191) NULL,
+  ADD COLUMN `tableId` INTEGER NULL;
 
 -- Generate codes for existing reservations
-UPDATE `reservation` SET `code` = CONCAT('HQ', LPAD(id, 5, '0')) WHERE `code` IS NULL;
+UPDATE `Reservation` SET `code` = CONCAT('HQ', LPAD(id, 5, '0')) WHERE `code` IS NULL;
 
 -- Make code NOT NULL after populating
-ALTER TABLE `reservation` MODIFY COLUMN `code` VARCHAR(191) NOT NULL;
+ALTER TABLE `Reservation` MODIFY COLUMN `code` VARCHAR(191) NOT NULL;
 
 -- CreateTable
 CREATE TABLE `Table` (
