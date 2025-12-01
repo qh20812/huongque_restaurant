@@ -12,7 +12,7 @@ export default function GioiThieu() {
         {/* Hero Section */}
         <section className="relative">
           <div className="absolute inset-0 bg-cover bg-center" style={{
-            backgroundImage: 'url("https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=2574")'
+            backgroundImage: 'url("/banner.jpg")',
           }}></div>
           <div className="absolute inset-0 bg-background-dark/60"></div>
           <div className="relative max-w-7xl mx-auto px-4 sm:px-10 py-24 sm:py-32 text-center text-white">
@@ -50,7 +50,7 @@ export default function GioiThieu() {
                   <Image 
                     alt="Không gian nhà hàng Hương Quê ấm cúng" 
                     className="w-full h-full object-cover"
-                    src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2070"
+                    src="/phongcach.jpg"
                     width={400}
                     height={400}
                   />
@@ -59,7 +59,7 @@ export default function GioiThieu() {
                   <Image 
                     alt="Món ăn được trình bày đẹp mắt tại Hương Quê" 
                     className="w-full h-full object-cover"
-                    src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=2070"
+                    src="/monan.jpg"
                     width={400}
                     height={400}
                   />
@@ -77,7 +77,7 @@ export default function GioiThieu() {
                 <Image 
                   alt="Đầu bếp đang chế biến món ăn" 
                   className="rounded-xl shadow-lg w-full h-auto object-cover"
-                  src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=2070"
+                  src="/tuong.jpg"
                   width={600}
                   height={400}
                 />

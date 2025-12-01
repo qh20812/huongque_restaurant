@@ -23,7 +23,7 @@ export default function Footer() {
                 <ul className="space-y-2 text-sm text-text-muted-dark">
                   <li className="flex items-start gap-2">
                     <span className="material-symbols-outlined text-base mt-1">location_on</span>
-                    <span>123 Đường ABC, Phường Bến Nghé, Quận 1, TP.HCM</span>
+                    <span>Số 8, Nguyễn Văn Tráng, Phường Bến Thành, Quận 1, TP.HCM</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="material-symbols-outlined text-base">call</span>

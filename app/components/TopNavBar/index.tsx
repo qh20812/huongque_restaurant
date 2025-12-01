@@ -66,7 +66,7 @@ export default function TopNavBar() {
         <div className="hidden sm:flex items-center gap-9">
           <a
             className="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors"
-            href="#gioi-thieu"
+            href="/gioi-thieu"
           >
             Giới Thiệu
           </a>
@@ -76,18 +76,7 @@ export default function TopNavBar() {
           >
             Thực Đơn
           </a>
-          <a
-            className="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors"
-            href="#doi-ngu"
-          >
-            Đội Ngũ
-          </a>
-          <a
-            className="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors"
-            href="#lien-he"
-          >
-            Liên Hệ
-          </a>
+          
           {authLoading ? (
             <span className="text-text-light dark:text-text-dark text-sm">...</span>
           ) : isAuthenticated ? (
