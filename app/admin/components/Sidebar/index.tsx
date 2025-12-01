@@ -9,6 +9,7 @@ export default function Sidebar() {
   const menuItems = [
     { href: '/admin', icon: 'pie_chart', label: 'Tổng quan' },
     { href: '/admin/mon-an', icon: 'restaurant_menu', label: 'Quản lý món ăn' },
+    { href: '/admin/set-menu', icon: 'menu_book', label: 'Quản lý set menu' },
     { href: '/admin/dat-ban', icon: 'calendar_month', label: 'Quản lý đặt bàn' },
     { href: '/admin/anh', icon: 'photo_library', label: 'Quản lý ảnh' },
     { href: '/admin/cai-dat', icon: 'settings', label: 'Cài đặt' },

@@ -1,9 +1,9 @@
 @import "tailwindcss";
-
+/* fcfaf8  332F30*/
 @theme {
   --color-primary: #ec7f13;
-  --color-background-light: #fcfaf8;
-  --color-background-dark: #221910;
+  --color-background-light: #221910;
+  --color-background-dark: #34302F;
   --color-text-light: #1b140d;
   --color-text-dark: #f3ede7;
   --color-text-muted-light: #9a734c;
