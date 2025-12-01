@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Button from "@/app/admin/components/Button";
 import InputField from "@/app/admin/components/InputField";
 import DescriptionField from "@/app/admin/components/DescriptionField";
@@ -20,18 +21,67 @@ type Section = {
   dishes: DishItem[];
 };
 
-export default function SuaSetMenu() {
-  // Pre-populated data (would come from API based on ID in URL params)
-  const [name, setName] = useState("Set Menu Lẩu Cá Kèo Lá Giang");
-  const [slug, setSlug] = useState("set-menu-lau-ca-keo-la-giang");
+type PageProps = {
+  params: Promise<{ id: string }>;
+};
+
+export default function SuaSetMenu({ params }: PageProps) {
+  const router = useRouter();
+  const [setMenuId, setSetMenuId] = useState<string>("");
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  
+  const [name, setName] = useState("");
+  const [slug, setSlug] = useState("");
   const [slugEdited, setSlugEdited] = useState(false);
-  const [description, setDescription] = useState(
-    "Một set menu đậm chất miền Tây với lẩu cá kèo chua thanh, gỏi bồn bồn giòn sần sật và bánh xèo vàng rụm. Thích hợp cho những buổi sum họp gia đình ấm cúng."
-  );
-  const [price, setPrice] = useState("799000");
-  const [servesMin, setServesMin] = useState("2");
-  const [servesMax, setServesMax] = useState("4");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [servesMin, setServesMin] = useState("");
+  const [servesMax, setServesMax] = useState("");
   const [isActive, setIsActive] = useState(true);
+
+  // Fetch set menu data
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const resolvedParams = await params;
+        const id = resolvedParams.id;
+        
+        if (!id) {
+          alert('Không tìm thấy ID set menu');
+          setLoading(false);
+          return;
+        }
+
+        setSetMenuId(id);
+
+        const response = await fetch(`/api/admin/set-menu/${id}`);
+        const data = await response.json();
+        
+        if (data.success && data.data) {
+          const setMenu = data.data;
+          setName(setMenu.name);
+          setSlug(setMenu.slug);
+          setDescription(setMenu.description || '');
+          setPrice(setMenu.price?.toString() || '');
+          setServesMin(setMenu.servesMin?.toString() || '');
+          setServesMax(setMenu.servesMax?.toString() || '');
+          setIsActive(setMenu.isActive);
+          
+          // TODO: Load sections if needed
+        } else {
+          throw new Error(data.error || 'Không tìm thấy set menu');
+        }
+      } catch (err: any) {
+        console.error('Error fetching set menu:', err);
+        alert(err.message || 'Không thể tải dữ liệu');
+      } finally {
+        setLoading(false);
+      }
+    }
+    
+    fetchData();
+  }, [params]);
 
   // slug is computed on the fly from name when not manually edited
 
@@ -193,12 +243,23 @@ export default function SuaSetMenu() {
     );
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Submit to API
-    console.log({
-      name,
-      slug: slugEdited
+    
+    if (!setMenuId) {
+      alert('Không tìm thấy ID set menu');
+      return;
+    }
+
+    if (!name.trim()) {
+      alert('Vui lòng nhập tên set menu');
+      return;
+    }
+
+    setSaving(true);
+
+    try {
+      const finalSlug = slugEdited
         ? slug
         : name
             .toLowerCase()
@@ -208,15 +269,48 @@ export default function SuaSetMenu() {
             .replace(/[^a-z0-9\s-]/g, "")
             .replace(/\s+/g, "-")
             .replace(/-+/g, "-")
-            .replace(/^-+|-+$/g, ""),
-      description,
-      price,
-      servesMin,
-      servesMax,
-      isActive,
-      sections,
-    });
+            .replace(/^-+|-+$/g, "");
+
+      const response = await fetch(`/api/admin/set-menu/${setMenuId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name.trim(),
+          slug: finalSlug.trim(),
+          description: description.trim() || null,
+          price: price ? Number(price) : null,
+          servesMin: servesMin ? Number(servesMin) : null,
+          servesMax: servesMax ? Number(servesMax) : null,
+          isActive,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Cập nhật set menu thất bại');
+      }
+
+      alert('Cập nhật set menu thành công!');
+      router.push('/admin/set-menu');
+    } catch (err: any) {
+      const message = err instanceof Error ? err.message : 'Có lỗi xảy ra';
+      alert(message);
+      console.error('Error updating set menu:', err);
+    } finally {
+      setSaving(false);
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="p-8 space-y-6">
+        <div className="text-center py-12">
+          <p className="text-text-muted-light dark:text-text-muted-dark">Đang tải dữ liệu...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -445,12 +539,13 @@ export default function SuaSetMenu() {
           <Button
             type="button"
             variant="secondary"
-            onClick={() => window.history.back()}
+            onClick={() => router.push('/admin/set-menu')}
+            disabled={saving}
           >
             Hủy
           </Button>
-          <Button type="submit" icon="save" iconPosition="left">
-            Cập nhật
+          <Button type="submit" icon="save" iconPosition="left" disabled={saving}>
+            {saving ? 'Đang cập nhật...' : 'Cập nhật'}
           </Button>
         </div>
       </form>
