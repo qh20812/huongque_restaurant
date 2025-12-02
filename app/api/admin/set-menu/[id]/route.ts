@@ -114,6 +114,16 @@ export async function DELETE(
       });
     }
 
+    // Delete dependent records (SetMenuDish and SetMenuSection) first to avoid FK violations.
+    // Get section IDs for the set menu
+    const sections = await prisma.setMenuSection.findMany({ where: { setMenuId }, select: { id: true } });
+    const sectionIds = sections.map((s) => s.id);
+
+    if (sectionIds.length) {
+      await prisma.setMenuDish.deleteMany({ where: { setMenuSectionId: { in: sectionIds } } });
+      await prisma.setMenuSection.deleteMany({ where: { id: { in: sectionIds } } });
+    }
+
     await prisma.setMenu.delete({ where: { id: setMenuId } });
 
     return Response.json({ success: true, message: 'Set menu deleted successfully' });
