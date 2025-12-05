@@ -1,8 +1,8 @@
 import TopNavBar from './components/TopNavBar'
 import HeroSection from './components/Hero'
+import SetMenuSection from './components/SetMenuSection'
 import IntroductionSection from './components/Intro'
 import CoreValuesSection from './components/CoreValue'
-import TeamSection from './components/TeamSection'
 import Footer from './components/Footer'
 
 export default function Home() {
@@ -17,12 +17,12 @@ export default function Home() {
               <main className="flex-grow">
                 {/* HeroSection */}
                 <HeroSection />
+                {/* Set Menu Section - displays available set menus */}
+                <SetMenuSection />
                 {/* Introduction Section */}
                 <IntroductionSection />
                 {/* Core Values Section */}
                 <CoreValuesSection />
-                {/* Team Section */}
-                <TeamSection />
               </main>
               <Footer />
             </div>

@@ -64,18 +64,14 @@ export default function TopNavBar() {
       </Link>
       <nav className="flex flex-1 justify-end gap-8">
         <div className="hidden sm:flex items-center gap-9">
+          <a href="\" className="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors">Trang chủ</a>
           <a
             className="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors"
             href="/gioi-thieu"
           >
             Giới Thiệu
           </a>
-          <a
-            className="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors"
-            href="/thuc-don"
-          >
-            Thực Đơn
-          </a>
+          
           
           {authLoading ? (
             <span className="text-text-light dark:text-text-dark text-sm">...</span>
