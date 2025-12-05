@@ -57,15 +57,15 @@ function request(options, body) {
     const dishIds = dishes.slice(0, 3).map((d) => d.id).filter(Boolean);
     if (dishIds.length < 2) throw new Error('Not enough dishes to create sections (need at least 2)');
 
-    // Helper to fetch thuc-don page HTML
-    async function fetchThucDonHtml() {
-      const res = await request({ hostname: 'localhost', port: 3000, path: '/thuc-don', method: 'GET' });
-      if (res.statusCode !== 200) throw new Error('Failed to fetch /thuc-don: ' + res.statusCode);
+    // Helper to fetch homepage HTML (set menus are now on homepage)
+    async function fetchHomepageHtml() {
+      const res = await request({ hostname: 'localhost', port: 3000, path: '/', method: 'GET' });
+      if (res.statusCode !== 200) throw new Error('Failed to fetch homepage: ' + res.statusCode);
       return res.body;
     }
 
-    // 3) Create an active set menu and verify it appears on /thuc-don
-    console.log('\n3) Creating an active set menu that should display on /thuc-don');
+    // 3) Create an active set menu and verify it appears on homepage
+    console.log('\n3) Creating an active set menu that should display on homepage');
     const now = Date.now();
     const activePayload = {
       name: `AutoSetMenu Visible ${now}`,
@@ -95,16 +95,16 @@ function request(options, body) {
     const activeCreated = createActiveJson.data;
     console.log('Created active set menu id:', activeCreated.id, 'name:', activeCreated.name);
 
-    // fetch thuc-don page and assert menu name appears
-    const html1 = await fetchThucDonHtml();
+    // fetch homepage and assert menu name appears
+    const html1 = await fetchHomepageHtml();
     // Page renders menu.name.toUpperCase() in the design; normalize our check
     const expectedMenuUpper = String(activeCreated.name).toUpperCase();
-    if (!html1.includes(expectedMenuUpper)) throw new Error('Active set menu name not found on /thuc-don');
-    console.log('Active set menu displayed on /thuc-don');
+    if (!html1.includes(expectedMenuUpper)) throw new Error('Active set menu name not found on homepage');
+    console.log('Active set menu displayed on homepage');
 
     // Also assert an item dish name appears (one item from sections)
     const dishName = (dishes.find(d => d.id === dishIds[0]) || {}).name;
-    if (dishName && !html1.includes(dishName)) console.warn('Dish name not found on /thuc-don page, but it was included in the set menu.');
+    if (dishName && !html1.includes(dishName)) console.warn('Dish name not found on homepage, but it was included in the set menu.');
 
     // 4) Create an inactive set menu and verify it does not appear
     console.log('\n4) Creating an INACTIVE set menu (should NOT be displayed)');
@@ -127,17 +127,17 @@ function request(options, body) {
     const hiddenCreated = createHiddenJson.data;
     console.log('Created hidden set menu id:', hiddenCreated.id, 'name:', hiddenCreated.name);
 
-    const html2 = await fetchThucDonHtml();
-    if (html2.includes(String(hiddenCreated.name))) throw new Error('Hidden set menu appears on /thuc-don (should be hidden)');
-    console.log('Hidden set menu NOT displayed on /thuc-don (OK)');
+    const html2 = await fetchHomepageHtml();
+    if (html2.includes(String(hiddenCreated.name))) throw new Error('Hidden set menu appears on homepage (should be hidden)');
+    console.log('Hidden set menu NOT displayed on homepage (OK)');
 
     // 5) Update active menu to hidden and verify it's removed
     console.log('\n5) Update the previously active set menu to isActive=false and verify it disappears');
     const updateRes = await request({ hostname: 'localhost', port: 3000, path: `/api/admin/set-menu/${activeCreated.id}`, method: 'PUT', headers: { 'Content-Type': 'application/json', Cookie: cookieHeader } }, JSON.stringify({ isActive: false }));
     if (updateRes.statusCode !== 200) throw new Error('Update active set menu to hidden failed: ' + updateRes.body);
-    const html3 = await fetchThucDonHtml();
-    if (html3.includes(String(activeCreated.name))) throw new Error('Updated (hidden) set menu still displayed on /thuc-don');
-    console.log('Updated set menu removed from /thuc-don (OK)');
+    const html3 = await fetchHomepageHtml();
+    if (html3.includes(String(activeCreated.name))) throw new Error('Updated (hidden) set menu still displayed on homepage');
+    console.log('Updated set menu removed from homepage (OK)');
 
     // 6) Clean up: delete hidden and previous (now hidden) set menus
     console.log('\n6) Cleanup: Deleting created set menus');
@@ -146,10 +146,10 @@ function request(options, body) {
     const delActiveRes = await request({ hostname: 'localhost', port: 3000, path: `/api/admin/set-menu/${activeCreated.id}`, method: 'DELETE', headers: { Cookie: cookieHeader } });
     if (delActiveRes.statusCode !== 200) console.warn('Failed to delete created set menu that was updated to hidden: ' + delActiveRes.body);
 
-    console.log('\nThuc-Don tests passed successfully');
+    console.log('\nHomepage Set Menu tests passed successfully');
     process.exit(0);
   } catch (err) {
-    console.error('Thuc-Don test failed:', err);
+    console.error('Homepage Set Menu test failed:', err);
     process.exit(1);
   }
 })();
