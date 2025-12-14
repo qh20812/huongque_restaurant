@@ -1,67 +1,208 @@
-import React from 'react'
-import SquareImage from '../UI/SquareImage'
-import { prisma } from '@/app/lib/prisma'
+"use client";
 
-async function getSetMenus() {
-  const menus = await prisma.setMenu.findMany({
-    where: { isActive: true },
-    orderBy: { price: 'asc' },
-    include: {
-      sections: {
-        orderBy: { order: 'asc' },
-        include: {
-          items: {
-            orderBy: { order: 'asc' },
-            include: { dish: true },
-          },
-        },
-      },
-    },
-  })
-  return menus
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+
+interface Dish {
+  id: number;
+  name: string;
+  description: string | null;
+  imageUrl: string | null;
+  category: {
+    name: string;
+  };
 }
 
-export default async function SetMenuSection() {
-  const menus = await getSetMenus()
-  
-  return (
-    <section id="thuc-don" className="px-4 py-16 sm:px-10">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h1 className="text-text-light dark:text-text-dark text-4xl font-black leading-tight tracking-[-0.033em] sm:text-5xl">
-            Thực đơn Đa dạng Set Menu Miền Tây
-          </h1>
-          <p className="mt-4 text-text-muted-light dark:text-text-muted-dark text-lg max-w-3xl mx-auto">
-            Mỗi set menu là một hành trình khám phá ẩm thực miền Tây sông nước, được đầu bếp tài hoa của Hương Quê sáng tạo và gửi gắm trọn vẹn tinh hoa đất trời phương Nam.
+interface SetMenuDish {
+  id: number;
+  notes: string | null;
+  quantity: number | null;
+  order: number;
+  dish: Dish;
+}
+
+interface SetMenuSection {
+  id: number;
+  name: string;
+  order: number;
+  items: SetMenuDish[];
+}
+
+interface SetMenu {
+  id: number;
+  name: string;
+  description: string | null;
+  price: number;
+  servesMin: number | null;
+  servesMax: number | null;
+  sections: SetMenuSection[];
+}
+
+export default function SetMenuSection() {
+  const [setMenus, setSetMenus] = useState<SetMenu[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchSetMenus();
+  }, []);
+
+  const fetchSetMenus = async () => {
+    try {
+      const response = await fetch("/api/set-menu");
+      const data = await response.json();
+
+      if (data.success) {
+        setSetMenus(data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching set menus:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(price);
+  };
+
+  if (loading) {
+    return (
+      <section className="px-4 py-16 sm:px-10 bg-primary">
+        <div className="max-w-5xl mx-auto text-center">
+          <div className="animate-pulse">
+            <div className="h-12 bg-gray-200 rounded w-3/4 mx-auto mb-4"></div>
+            <div className="h-6 bg-gray-200 rounded w-1/2 mx-auto"></div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+  if (setMenus.length === 0) {
+    return (
+      <section className="px-4 py-16 sm:px-10 bg-primary/5">
+        <div className="max-w-5xl mx-auto text-center">
+          <h2 className="text-[#1b140d] text-4xl font-black leading-tight tracking-[-0.033em] sm:text-5xl">
+            Thực đơn Set Menu Hương Quê
+          </h2>
+          <p className="mt-8 text-[#9a734c] text-lg">
+            Hiện tại chưa có set menu nào được công bố.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-y-12 gap-x-8">
-          {menus.map((menu) => (
-            <div key={menu.id} className="relative bg-background-light dark:bg-background-dark/70 rounded-xl shadow-lg border border-border-light dark:border-border-dark p-6 sm:p-8 flex flex-col h-full">
-              <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-primary text-white text-sm font-bold px-6 py-2 rounded-full shadow-md">{menu.name.toUpperCase()}</div>
-              <div className="text-center mt-6 mb-8">
-                <h2 className="text-primary text-3xl font-bold tracking-tight">{Intl.NumberFormat('vi-VN').format(menu.price)} VNĐ</h2>
-                {menu.servesMin || menu.servesMax ? (
-                  <p className="text-text-muted-light dark:text-text-muted-dark text-sm">/ dành cho {menu.servesMin ?? ''}{menu.servesMin && menu.servesMax ? '-' : ''}{menu.servesMax ?? ''} người</p>
-                ) : null}
+      </section>
+    );
+  }
+
+  return (
+    <section className="px-4 py-16 sm:px-10 bg-primary/5" id="set-menu">
+      <div className="max-w-5xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h2 className="text-white text-4xl font-black leading-tight tracking-[-0.033em] sm:text-5xl">
+            Thực đơn Set Menu Hương Quê
+          </h2>
+          <p className="mt-4 text-[#9a734c] text-lg max-w-2xl mx-auto">
+            Trải nghiệm ẩm thực tinh túy với set menu đặc biệt, hội tụ đầy đủ
+            các món ngon đặc sắc của Hương Quê.
+          </p>
+        </div>
+
+        {/* Set Menus */}
+        <div className="space-y-8">
+          {setMenus.map((setMenu) => (
+            <div
+              key={setMenu.id}
+              className="border-2 border-[#ec7f13] rounded-xl p-6 sm:p-8 bg-primary/5 shadow-lg"
+            >
+              {/* Set Menu Header */}
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+                <div>
+                  <h3 className="text-[#ec7f13] text-3xl font-bold tracking-tight">
+                    {setMenu.name}
+                  </h3>
+                  {setMenu.description && (
+                    <p className="text-[#9a734c] text-sm mt-2">
+                      {setMenu.description}
+                    </p>
+                  )}
+                  {(setMenu.servesMin || setMenu.servesMax) && (
+                    <p className="text-[#9a734c] text-sm mt-1">
+                      Phục vụ: {setMenu.servesMin}
+                      {setMenu.servesMax &&
+                      setMenu.servesMax !== setMenu.servesMin
+                        ? ` - ${setMenu.servesMax}`
+                        : ""}{" "}
+                      người
+                    </p>
+                  )}
+                </div>
+                <p className="text-white text-2xl font-black bg-[#ec7f13]/20 px-4 py-2 rounded-lg whitespace-nowrap">
+                  {formatPrice(setMenu.price)}
+                </p>
               </div>
-              <div className="space-y-6 grow">
-                {menu.sections.map((section) => (
+
+              {/* Sections */}
+              <div className="space-y-12">
+                {setMenu.sections.map((section) => (
                   <div key={section.id}>
-                    <h3 className="font-bold text-text-light dark:text-text-dark mb-4 text-center pb-2 border-b-2 border-primary/30">{section.name}</h3>
-                    <ul className="space-y-4">
+                    <h4 className="text-white text-xl font-bold leading-tight tracking-tight mb-6 border-b-2 border-[#e7dbcf] pb-3">
+                      {section.name}
+                    </h4>
+
+                    {/* Dishes Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                       {section.items.map((item) => (
-                        <li key={item.id} className="flex items-start gap-4">
-                          <SquareImage src={item.dish.imageUrl || ''} alt={item.dish.name} size={64} />
-                          <div className="min-w-0">
-                            <span>{item.dish.name}</span>
-                            {item.dish.description ? (
-                              <p className="text-text-muted-light dark:text-text-muted-dark text-sm mt-1 wrap-break-word">{item.dish.description}</p>
-                            ) : null}
+                        <div
+                          key={item.id}
+                          className="flex flex-col sm:flex-row gap-6"
+                        >
+                          {/* Dish Image */}
+                          <div className="w-full sm:w-32 h-32 flex-shrink-0">
+                            {item.dish.imageUrl ? (
+                              <div className="relative w-full h-full rounded-md overflow-hidden">
+                                <Image
+                                  src={item.dish.imageUrl}
+                                  alt={item.dish.name}
+                                  fill
+                                  className="object-cover"
+                                  sizes="(max-width: 640px) 100vw, 128px"
+                                />
+                              </div>
+                            ) : (
+                              <div className="w-full h-full bg-gray-200 rounded-md flex items-center justify-center">
+                                <span className="text-gray-400 text-sm">
+                                  No image
+                                </span>
+                              </div>
+                            )}
                           </div>
-                        </li>
+
+                          {/* Dish Info */}
+                          <div className="flex flex-col">
+                            <h5 className="text-white text-lg font-bold">
+                              {item.dish.name}
+                              {item.quantity && item.quantity > 1 && (
+                                <span className="text-sm text-[#9a734c] ml-2">
+                                  (x{item.quantity})
+                                </span>
+                              )}
+                            </h5>
+                            {item.dish.description && (
+                              <p className="text-[#9a734c] text-sm mt-2 flex-grow">
+                                {item.dish.description}
+                              </p>
+                            )}
+                            {item.notes && (
+                              <p className="text-[#ec7f13] text-xs mt-2 italic">
+                                * {item.notes}
+                              </p>
+                            )}
+                          </div>
+                        </div>
                       ))}
-                    </ul>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -70,5 +211,5 @@ export default async function SetMenuSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }

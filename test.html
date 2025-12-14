@@ -1,206 +1,426 @@
 <!DOCTYPE html>
-<html class="light" lang="vi"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Giới thiệu về Hương Quê</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script>
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          colors: {
-            "primary": "#ec7f13",
-            "background-light": "#fcfaf8",
-            "background-dark": "#221910",
-            "text-light": "#1b140d",
-            "text-dark": "#f3ede7",
-            "text-muted-light": "#9a734c",
-            "text-muted-dark": "#a89988",
-            "border-light": "#e7dbcf",
-            "border-dark": "#4a3c2c"
-          },
-          fontFamily: {
-            "display": ["Be Vietnam Pro", "sans-serif"]
-          },
-          borderRadius: {
-            "DEFAULT": "0.25rem",
-            "lg": "0.5rem",
-            "xl": "0.75rem",
-            "full": "9999px"
+<html class="light" lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Thực Đơn Set Menu - Hương Quê</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#ec7f13",
+              "background-light": "#fcfaf8",
+              "background-dark": "#221910",
+              "text-light": "#1b140d",
+              "text-dark": "#f3ede7",
+              "text-muted-light": "#9a734c",
+              "text-muted-dark": "#a89988",
+              "border-light": "#e7dbcf",
+              "border-dark": "#4a3c2c",
+            },
+            fontFamily: {
+              display: ["Be Vietnam Pro", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
           },
         },
-      },
-    }
-  </script>
-<style>body {
-    scroll-behavior: smooth
-    }
-.texture-bg {
-    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuDgoYfrs9Eam8anQnY4lOfQSn-blwkfoF9JQ7Ccr2XE71MMuMJItJ_sYfUHbdSEQ03RjD4KLIEsUZYbGXbPMRZzYFs1iElQ0sIkZnyo2SfiRkKcHq4LxigwOZINB8xbj8hsFvq4LLCcoKTVKuiA8CLfhrf65tfU9bW4GyVM2l_2G2DldHy1JTG3rxR9Srcnh9vrIKeaJJfFZ-Hb-iQUewOHOq30DE-knCYciY2AMLLLoHzU7y12nMqxWpzi5hvNuohd8kIdSFLpIAY)
-    }
-.dark .texture-bg {
-    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuDgoYfrs9Eam8anQnY4lOfQSn-blwkfoF9JQ7Ccr2XE71MMuMJItJ_sYfUHbdSEQ03RjD4KLIEsUZYbGXbPMRZzYFs1iElQ0sIkZnyo2SfiRkKcHq4LxigwOZINB8xbj8hsFvq4LLCcoKTVKuiA8CLfhrf65tfU9bW4GyVM2l_2G2DldHy1JTG3rxR9Srcnh9vrIKeaJJfFZ-Hb-iQUewOHOq30DE-knCYciY2AMLLLoHzU7y12nMqxWpzi5hvNuohd8kIdSFLpIAY)
-    }</style>
-</head>
-<body class="font-display bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark">
-<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
-<div class="layout-container flex h-full grow flex-col">
-<div class="flex flex-1 justify-center">
-<div class="layout-content-container flex flex-col w-full">
-<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-border-light dark:border-border-dark px-4 sm:px-10 py-3 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm">
-<div class="flex items-center gap-4">
-<div class="size-6 text-primary">
-<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-<path clip-rule="evenodd" d="M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-<h2 class="text-text-light dark:text-text-dark text-lg font-bold leading-tight tracking-[-0.015em]">Hương Quê</h2>
-</div>
-<nav class="flex flex-1 justify-end gap-8">
-<div class="hidden sm:flex items-center gap-9">
-<a class="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors" href="#">Trang Chủ</a>
-<a class="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors" href="#">Thực Đơn</a>
-<a class="text-primary dark:text-primary text-sm font-bold leading-normal" href="#">Giới Thiệu</a>
-<a class="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors" href="#">Liên Hệ</a>
-</div>
-</nav>
-</header>
-<main class="flex-grow">
-<section class="relative">
-<div class="absolute inset-0 bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBKtHQBepPtEpTZoHQrMzZJYBpbEjPI6DOoUCB_lgF6GIrKt2BMhu96vKYBJf_0Lpg-43gY5npJAsSy7zCziNHPg2_RgrGAOUtdbFZ7f9iaK1hg_WgKNuCkzTFMt5M9PILmPk2FQzgPwsMZBMJ77IBI5bwarnUit1wj_ftNMX3ORz02ycPrubcGTS73sIwmUMZPm96cWinQK1ac9zkdS_XWcboErzPzMT0rqXPswoar7FDdxS32IM0JfOotFWFk9pUfWO6Gxxk2e1E");'></div>
-<div class="absolute inset-0 bg-background-dark/60"></div>
-<div class="relative max-w-7xl mx-auto px-4 sm:px-10 py-24 sm:py-32 text-center text-white">
-<h1 class="text-4xl sm:text-6xl font-black leading-tight tracking-[-0.033em]">Giới thiệu về Hương Quê</h1>
-<p class="mt-4 text-lg max-w-3xl mx-auto text-text-dark">Nơi lưu giữ hương vị – nâng tầm giá trị ẩm thực Việt</p>
-</div>
-</section>
-<section class="py-16 sm:py-24 px-4 sm:px-10">
-<div class="max-w-7xl mx-auto">
-<div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-<div class="space-y-4">
-<h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-primary">Câu chuyện Hương Quê</h2>
-<p class="text-lg text-text-muted-light dark:text-text-muted-dark">Ẩm thực không chỉ là món ăn, mà còn là ký ức, là văn hóa, là sự tử tế được trao đi. Tại Hương Quê, chúng tôi tin rằng mỗi món ăn đều mang trong mình một câu chuyện, một miền ký ức về quê hương, gia đình và những bữa cơm sum vầy ấm áp.</p>
-<p class="text-text-light dark:text-text-dark">Ra đời vào ngày 15/10 từ khát vọng mang hơi ấm quê nhà đến với thực khách, Hương Quê khởi đầu với 14 nhân sự và một set menu giản dị. Bằng sự chỉn chu trong từng chi tiết và tấm lòng chân thành, chúng tôi đã từng bước chạm đến trái tim của những người yêu ẩm thực Việt.</p>
-</div>
-<div class="grid grid-cols-2 gap-4">
-<div class="rounded-xl overflow-hidden shadow-lg">
-<img alt="Không gian nhà hàng Hương Quê ấm cúng" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_WukxudHjlRo0gsgO6ho6xGaZLseLmHGqPMZAkkdqKcE5-2EYL3oii3ZG9by9xK25DF4bBREyNYp8yC_za0mmOHZzYGQCHmH29IRR5iKO2JSjyoWMWbondkn9G9pb4b1_MvMUPzwwUutE_dLXU9S2MvwgPNnV2FCc5ma_b9fe_eEIx5PQh9z2DoYXfgVvAFccGCFTBHeVEDqHQZsVUVwzUcwnHteZ_ykP1h9YIoxPs7vgClPzRxpXet5dprYNqXMubbxcy69SRfA"/>
-</div>
-<div class="rounded-xl overflow-hidden shadow-lg mt-8">
-<img alt="Món ăn được trình bày đẹp mắt tại Hương Quê" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-lgC5JZIcqOFfgwnLlISjesxP1osyeKBokkExHID8pu5qxxylp_7LyFephR3hQBLgw9GwgKp-i2gnRdcmY6Awxv5UH3Dxiv2NtIerLWha5yQs6W57RpgSqlGxEBrmUalGzQIjuYALVgfXjsVzVV5ArcXO2ZYQdkwgVkTSmTJObcgH7H7AfyKZufONA4YW7r8SZCHOWMY3jSOV3wSDFDdbaa8ewpPW3ZVqK0hLXPigaX5nKYfcWoz-F2K6scbdt_TVuNkli3S69qw"/>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section class="py-16 sm:py-24 px-4 sm:px-10 bg-background-light dark:bg-background-dark texture-bg">
-<div class="max-w-7xl mx-auto">
-<div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-<div class="order-2 lg:order-1">
-<img alt="Đầu bếp đang chế biến món ăn" class="rounded-xl shadow-lg w-full h-auto object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA45atGr9goOX0Wt5iuvyXMY5-dqsOEZjA6Qu8lP24Qv7yr02u8pIRBumvqaaDnns2OR4vC_nJRhv33YiyzJxXLX8mV8JjbmZW4ihBymB50rNPKJ1ozKOBb_OXOPyZ_oJQQQ4ye33hoWKbPNvzvKqAmA6VQpYWxixGKq65ZCjWyQToLk-ZE7cH3b4OdoPcI4Y5UMxtMzNrglVAY3filJq-WFd9jwH3P8PgZznO4z__gNTW3JMnsHSPG3-0w8M5SnWOZjlUZFjlIvm4"/>
-</div>
-<div class="order-1 lg:order-2 space-y-8">
-<div>
-<h3 class="text-2xl font-bold text-text-light dark:text-text-dark mb-2">Sứ mệnh &amp; Tầm nhìn</h3>
-<p class="text-text-muted-light dark:text-text-muted-dark">Chúng tôi mang trong mình sứ mệnh gìn giữ và phát huy những tinh hoa ẩm thực quê nhà, lan tỏa vẻ đẹp văn hóa Việt qua từng món ăn. Tầm nhìn của Hương Quê là trở thành nhà hàng truyền thống uy tín và được yêu mến nhất khu vực, xây dựng một hệ thống hiện đại nhưng vẫn giữ trọn vẹn hồn quê trong từng không gian và hương vị.</p>
-</div>
-<div>
-<h3 class="text-2xl font-bold text-text-light dark:text-text-dark mb-2">Phong cách ẩm thực</h3>
-<p class="text-text-muted-light dark:text-text-muted-dark">"Giữ hồn xưa – chắt lọc tinh hoa – mang hơi thở quê nhà" là kim chỉ nam cho phong cách ẩm thực của chúng tôi. Hương Quê tập trung vào hương vị miền Tây đặc trưng với sự cân bằng hoàn hảo giữa chua-cay-mặn- ngọt, sử dụng vị ngọt thanh tự nhiên từ nguyên liệu tươi ngon. Mỗi món ăn đều được chế biến tối giản nhưng tinh tế, mang lại cảm giác thân thuộc như một bữa cơm gia đình ấm cúng.</p>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section class="py-16 sm:py-24 px-4 sm:px-10">
-<div class="max-w-5xl mx-auto text-center">
-<h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-primary mb-4">Giá trị cốt lõi</h2>
-<p class="text-lg text-text-muted-light dark:text-text-muted-dark mb-12 max-w-3xl mx-auto">Sự chân thật trong nguyên liệu, trong cách chế biến và trong từng cảm xúc gửi gắm là nền tảng tạo nên giá trị của Hương Quê.</p>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-<div class="bg-white dark:bg-background-dark/50 p-8 rounded-xl border border-border-light dark:border-border-dark shadow-sm text-center">
-<div class="mx-auto bg-primary/10 text-primary size-12 rounded-full flex items-center justify-center mb-4">
-<span class="material-symbols-outlined">favorite</span>
-</div>
-<h3 class="text-xl font-bold text-text-light dark:text-text-dark mb-2">Tận tâm</h3>
-<p class="text-text-muted-light dark:text-text-muted-dark">Phục vụ bằng cả trái tim, chăm chút trong từng chi tiết nhỏ nhất để mang lại trải nghiệm hoàn hảo cho thực khách.</p>
-</div>
-<div class="bg-white dark:bg-background-dark/50 p-8 rounded-xl border border-border-light dark:border-border-dark shadow-sm text-center">
-<div class="mx-auto bg-primary/10 text-primary size-12 rounded-full flex items-center justify-center mb-4">
-<span class="material-symbols-outlined">auto_awesome</span>
-</div>
-<h3 class="text-xl font-bold text-text-light dark:text-text-dark mb-2">Tinh tế</h3>
-<p class="text-text-muted-light dark:text-text-muted-dark">Từ việc lựa chọn nguyên liệu, chế biến món ăn đến cách bài trí không gian, tất cả đều thể hiện sự tinh tế, hài hòa.</p>
-</div>
-<div class="bg-white dark:bg-background-dark/50 p-8 rounded-xl border border-border-light dark:border-border-dark shadow-sm text-center">
-<div class="mx-auto bg-primary/10 text-primary size-12 rounded-full flex items-center justify-center mb-4">
-<span class="material-symbols-outlined">spa</span>
-</div>
-<h3 class="text-xl font-bold text-text-light dark:text-text-dark mb-2">Tôn trọng truyền thống</h3>
-<p class="text-text-muted-light dark:text-text-muted-dark">Kế thừa và phát huy những giá trị ẩm thực truyền thống, giữ gìn hương vị nguyên bản của món ăn Việt.</p>
-</div>
-</div>
-</div>
-</section>
-</main>
-<footer class="bg-background-dark text-text-dark" id="lien-he">
-<div class="max-w-5xl mx-auto px-4 sm:px-10 py-12">
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-<div class="md:col-span-1">
-<div class="flex items-center gap-3 mb-4">
-<div class="size-6 text-primary">
-<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-<path clip-rule="evenodd" d="M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-<h2 class="text-lg font-bold">Hương Quê</h2>
-</div>
-<p class="text-sm text-text-muted-dark">Nơi hội tụ tinh hoa ẩm thực miền Tây sông nước, mang đến cho thực khách những trải nghiệm ấm cúng và đáng nhớ.</p>
-</div>
-<div class="md:col-span-2">
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-<div>
-<h4 class="font-bold mb-4">Thông tin liên hệ</h4>
-<ul class="space-y-2 text-sm text-text-muted-dark">
-<li class="flex items-start gap-2">
-<span class="material-symbols-outlined text-base mt-1">location_on</span>
-<span>123 Đường ABC, Phường Bến Nghé, Quận 1, TP.HCM</span>
-</li>
-<li class="flex items-center gap-2">
-<span class="material-symbols-outlined text-base">call</span>
-<a class="hover:text-primary" href="tel:0987654321">098-765-4321</a>
-</li>
-<li class="flex items-center gap-2">
-<span class="material-symbols-outlined text-base">mail</span>
-<a class="hover:text-primary" href="mailto:info@huongque.vn">info@huongque.vn</a>
-</li>
-</ul>
-</div>
-<div>
-<h4 class="font-bold mb-4">Theo dõi chúng tôi</h4>
-<div class="flex space-x-4">
-<a class="text-text-muted-dark hover:text-primary transition-colors" data-alt="Facebook icon" href="#">
-<svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path clip-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" fill-rule="evenodd"></path></svg>
-</a>
-<a class="text-text-muted-dark hover:text-primary transition-colors" data-alt="Instagram icon" href="#">
-<svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path clip-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.024.048-1.378.06-3.808.06s-2.784-.012-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049-1.064.218 1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 016.345 2.525c.636-.247 1.363-.416 2.427-.465C9.793 2.013 10.147 2 12.315 2zm-1.002 6.363a4.92 4.92 0 11-3.483 8.484 4.92 4.92 0 013.483-8.484zM12 14.85a2.85 2.85 0 100-5.7 2.85 2.85 0 000 5.7z" fill-rule="evenodd"></path></svg>
-</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="border-t border-border-dark mt-8 pt-6 text-center text-sm text-text-muted-dark">
-<p>© 2024 Hương Quê. All rights reserved.</p>
-</div>
-</div>
-</footer>
-</div>
-</div>
-</div>
-</div>
-</body></html>
+      };
+    </script>
+    <style>
+      body {
+        scroll-behavior: smooth;
+      }
+    </style>
+  </head>
+  <body
+    class="font-display bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark"
+  >
+    <div
+      class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden"
+    >
+      <div class="layout-container flex h-full grow flex-col">
+        <div class="flex flex-1 justify-center">
+          <div class="layout-content-container flex flex-col w-full">
+            <header
+              class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-border-light dark:border-border-dark px-4 sm:px-10 py-3 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm"
+            >
+              <div class="flex items-center gap-4">
+                <div class="size-6 text-primary">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 48 48"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      clip-rule="evenodd"
+                      d="M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z"
+                      fill="currentColor"
+                      fill-rule="evenodd"
+                    ></path>
+                  </svg>
+                </div>
+                <h2
+                  class="text-text-light dark:text-text-dark text-lg font-bold leading-tight tracking-[-0.015em]"
+                >
+                  Hương Quê
+                </h2>
+              </div>
+              <nav class="flex flex-1 justify-end gap-8">
+                <div class="hidden sm:flex items-center gap-9">
+                  <a
+                    class="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors"
+                    href="#"
+                    >Trang Chủ</a
+                  >
+                  <a
+                    class="text-primary dark:text-primary text-sm font-bold leading-normal"
+                    href="#"
+                    >Thực Đơn</a
+                  >
+                  <a
+                    class="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors"
+                    href="#"
+                    >Đội Ngũ</a
+                  >
+                  <a
+                    class="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors"
+                    href="#"
+                    >Liên Hệ</a
+                  >
+                </div>
+              </nav>
+            </header>
+            <main class="flex-grow">
+              <section class="px-4 py-16 sm:px-10">
+                <div class="max-w-5xl mx-auto">
+                  <div class="text-center mb-12">
+                    <h1
+                      class="text-text-light dark:text-text-dark text-4xl font-black leading-tight tracking-[-0.033em] sm:text-5xl"
+                    >
+                      Thực đơn Set Menu Hương Quê
+                    </h1>
+                    <p
+                      class="mt-4 text-text-muted-light dark:text-text-muted-dark text-lg max-w-2xl mx-auto"
+                    >
+                      Trải nghiệm ẩm thực tinh túy với set menu đặc biệt, hội tụ
+                      đầy đủ các món ngon đặc sắc của Hương Quê.
+                    </p>
+                  </div>
+                  <div
+                    class="border-2 border-primary rounded-xl p-6 sm:p-8 bg-background-light dark:bg-background-dark/50"
+                  >
+                    <div
+                      class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8"
+                    >
+                      <h2
+                        class="text-primary text-3xl font-bold tracking-tight"
+                      >
+                        Set Menu Đặc Biệt
+                      </h2>
+                      <p
+                        class="text-text-light dark:text-text-dark text-2xl font-black bg-primary/20 dark:bg-primary/30 px-4 py-2 rounded-lg"
+                      >
+                        2.500.000 VNĐ
+                      </p>
+                    </div>
+                    <div class="space-y-12">
+                      <div>
+                        <h3
+                          class="text-text-light dark:text-text-dark text-xl font-bold leading-tight tracking-tight mb-6 border-b-2 border-border-light dark:border-border-dark pb-3"
+                        >
+                          Món Khai Vị
+                        </h3>
+                        <div
+                          class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6"
+                        >
+                          <div class="flex flex-col sm:flex-row gap-6">
+                            <div class="w-full sm:w-32 h-32 flex-shrink-0">
+                              <div
+                                class="w-full h-full bg-cover bg-center rounded-md"
+                                data-alt="Gỏi ngó sen tôm thịt with fresh herbs and fish sauce dressing."
+                                style="
+                                  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA-lgC5JZIcqOFfgwnLlISjesxP1osyeKBokkExHID8pu5qxxylp_7LyFephR3hQBLgw9GwgKp-i2gnRdcmY6Awxv5UH3Dxiv2NtIerLWha5yQs6W57RpgSqlGxEBrmUalGzQIjuYALVgfXjsVzVV5ArcXO2ZYQdkwgVkTSmTJObcgH7H7AfyKZufONA4YW7r8SZCHOWMY3jSOV3wSDFDdbaa8ewpPW3ZVqK0hLXPigaX5nKYfcWoz-F2K6scbdt_TVuNkli3S69qw');
+                                "
+                              ></div>
+                            </div>
+                            <div class="flex flex-col">
+                              <h4
+                                class="text-text-light dark:text-text-dark text-lg font-bold"
+                              >
+                                Gỏi Ngó Sen Tôm Thịt
+                              </h4>
+                              <p
+                                class="text-text-muted-light dark:text-text-muted-dark text-sm mt-2 flex-grow"
+                              >
+                                Ngó sen giòn tan, tôm thịt tươi ngọt hòa quyện
+                                cùng nước mắm chua ngọt đậm đà, điểm xuyết thêm
+                                đậu phộng rang thơm lừng và rau răm cay nhẹ.
+                              </p>
+                            </div>
+                          </div>
+                          <div class="flex flex-col sm:flex-row gap-6">
+                            <div class="w-full sm:w-32 h-32 flex-shrink-0">
+                              <div
+                                class="w-full h-full bg-cover bg-center rounded-md"
+                                data-alt="Chả giò chiên giòn rụm served with lettuce and dipping sauce."
+                                style="
+                                  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDqUQnXdrMbJoIVzuUQKspbqLejscrq5SiJueE--P8EBW9uOn7AHkXdYojTbqg2CYzMBUNIeSUcKdjucuofV5BwIItvlvb0C-7cXT-0jxiRO1MOgIDCHDT8DSCrHb8e7RhakR2b-irM0Z3qWZIyK2HzxFGNxNiIaK5lw_2QysmPLUM-MuBZG3QSNY2m8yYno0MCv6D46WmSspow3wurqW94InaB89FzCPeFp2QLD1HOxN2DhYXKYDfU9Upu9ULVu_zQN3Cxx9BFdzU');
+                                "
+                              ></div>
+                            </div>
+                            <div class="flex flex-col">
+                              <h4
+                                class="text-text-light dark:text-text-dark text-lg font-bold"
+                              >
+                                Chả Giò Miền Tây
+                              </h4>
+                              <p
+                                class="text-text-muted-light dark:text-text-muted-dark text-sm mt-2 flex-grow"
+                              >
+                                Lớp vỏ bánh tráng giòn rụm bao bọc nhân thịt,
+                                tôm, khoai môn và nấm mèo đậm đà. Ăn kèm rau
+                                sống và nước mắm chua ngọt, ngon khó cưỡng.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <h3
+                          class="text-text-light dark:text-text-dark text-xl font-bold leading-tight tracking-tight mb-6 border-b-2 border-border-light dark:border-border-dark pb-3"
+                        >
+                          Món Chính
+                        </h3>
+                        <div
+                          class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6"
+                        >
+                          <div class="flex flex-col sm:flex-row gap-6">
+                            <div class="w-full sm:w-32 h-32 flex-shrink-0">
+                              <div
+                                class="w-full h-full bg-cover bg-center rounded-md"
+                                data-alt="Cá lóc nướng trui with a smoky flavor, served with rice paper and herbs."
+                                style="
+                                  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBKtHQBepPtEpTZoHQrMzZJYBpbEjPI6DOoUCB_lgF6GIrKt2BMhu96vKYBJf_0Lpg-43gY5npJAsSy7zCziNHPg2_RgrGAOUtdbFZ7f9iaK1hg_WgKNuCkzTFMt5M9PILmPk2FQzgPwsMZBMJ77IBI5bwarnUit1wj_ftNMX3ORz02ycPrubcGTS73sIwmUMZPm96cWinQK1ac9zkdS_XWcboErzPzMT0rqXPswoar7FDdxS32IM0JfOotFWFk9pUfWO6Gxxk2e1E');
+                                "
+                              ></div>
+                            </div>
+                            <div class="flex flex-col">
+                              <h4
+                                class="text-text-light dark:text-text-dark text-lg font-bold"
+                              >
+                                Cá Lóc Nướng Trui
+                              </h4>
+                              <p
+                                class="text-text-muted-light dark:text-text-muted-dark text-sm mt-2 flex-grow"
+                              >
+                                Cá lóc đồng tươi ngon được nướng trên lửa rơm
+                                cho đến khi da cháy xém, thịt bên trong trắng
+                                ngần, ngọt thơm. Cuốn bánh tráng, rau sống và
+                                chấm mắm me.
+                              </p>
+                            </div>
+                          </div>
+                          <div class="flex flex-col sm:flex-row gap-6">
+                            <div class="w-full sm:w-32 h-32 flex-shrink-0">
+                              <div
+                                class="w-full h-full bg-cover bg-center rounded-md"
+                                data-alt="Canh chua cá bông lau in a bowl with tamarind broth and vegetables."
+                                style="
+                                  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD_WukxudHjlRo0gsgO6ho6xGaZLseLmHGqPMZAkkdqKcE5-2EYL3oii3ZG9by9xK25DF4bBREyNYp8yC_za0mmOHZzYGQCHmH29IRR5iKO2JSjyoWMWbondkn9G9pb4b1_MvMUPzwwUutE_dLXU9S2MvwgPNnV2FCc5ma_b9fe_eEIx5PQh9z2DoYXfgVvAFccGCFTBHeVEDqHQZsVUVwzUcwnHteZ_ykP1h9YIoxPs7vgClPzRxpXet5dprYNqXMubbxcy69SRfA');
+                                "
+                              ></div>
+                            </div>
+                            <div class="flex flex-col">
+                              <h4
+                                class="text-text-light dark:text-text-dark text-lg font-bold"
+                              >
+                                Canh Chua Cá Bông Lau
+                              </h4>
+                              <p
+                                class="text-text-muted-light dark:text-text-muted-dark text-sm mt-2 flex-grow"
+                              >
+                                Món canh trứ danh với vị chua thanh của me, ngọt
+                                béo của cá bông lau, kết hợp cùng bạc hà, giá
+                                đỗ, cà chua và rau thơm. Giải nhiệt và đưa cơm.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <h3
+                          class="text-text-light dark:text-text-dark text-xl font-bold leading-tight tracking-tight mb-6 border-b-2 border-border-light dark:border-border-dark pb-3"
+                        >
+                          Tráng Miệng
+                        </h3>
+                        <div
+                          class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6"
+                        >
+                          <div class="flex flex-col sm:flex-row gap-6">
+                            <div class="w-full sm:w-32 h-32 flex-shrink-0">
+                              <div
+                                class="w-full h-full bg-cover bg-center rounded-md"
+                                data-alt="Chè bà ba with various beans, tubers, and coconut milk."
+                                style="
+                                  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBZ9FbtoTXayiuvIPojK25PN8U_nTgr25K50RH-cVYAT9O6alZDxWkC2IA99yQWGhXX1tw-I_2O3ucbsKcf_QfCMRM4VhJwpKSiZ7ZGe5npRhWVbypwZMWuyiLuSWtq8wo20Uo_F79JFg-LHT1tX03KJKS87tY6lmPi9seiyJn5T97HkkDdf7fzVUS6trzuiu30KG8x1Svh0HmqAvx5iHD-sHrR3JOLHHUYjCiP40urTZvZJC-8Id0ruE3w36fyZDkL-FEF7XdtufE');
+                                "
+                              ></div>
+                            </div>
+                            <div class="flex flex-col">
+                              <h4
+                                class="text-text-light dark:text-text-dark text-lg font-bold"
+                              >
+                                Chè Bà Ba
+                              </h4>
+                              <p
+                                class="text-text-muted-light dark:text-text-muted-dark text-sm mt-2 flex-grow"
+                              >
+                                Món chè ngọt ngào, béo ngậy với sự kết hợp hài
+                                hòa của khoai lang, khoai môn, sắn, đậu xanh,
+                                phổ tai và nước cốt dừa sánh mịn.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </main>
+            <footer class="bg-background-dark text-text-dark" id="lien-he">
+              <div class="max-w-5xl mx-auto px-4 sm:px-10 py-12">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  <div class="md:col-span-1">
+                    <div class="flex items-center gap-3 mb-4">
+                      <div class="size-6 text-primary">
+                        <svg
+                          fill="none"
+                          viewBox="0 0 48 48"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            clip-rule="evenodd"
+                            d="M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z"
+                            fill="currentColor"
+                            fill-rule="evenodd"
+                          ></path>
+                        </svg>
+                      </div>
+                      <h2 class="text-lg font-bold">Hương Quê</h2>
+                    </div>
+                    <p class="text-sm text-text-muted-dark">
+                      Nơi hội tụ tinh hoa ẩm thực miền Tây sông nước, mang đến
+                      cho thực khách những trải nghiệm ấm cúng và đáng nhớ.
+                    </p>
+                  </div>
+                  <div class="md:col-span-2">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                      <div>
+                        <h4 class="font-bold mb-4">Thông tin liên hệ</h4>
+                        <ul class="space-y-2 text-sm text-text-muted-dark">
+                          <li class="flex items-start gap-2">
+                            <span
+                              class="material-symbols-outlined text-base mt-1"
+                              >location_on</span
+                            >
+                            <span
+                              >123 Đường ABC, Phường Bến Nghé, Quận 1,
+                              TP.HCM</span
+                            >
+                          </li>
+                          <li class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-base"
+                              >call</span
+                            >
+                            <a class="hover:text-primary" href="tel:0987654321"
+                              >098-765-4321</a
+                            >
+                          </li>
+                          <li class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-base"
+                              >mail</span
+                            >
+                            <a
+                              class="hover:text-primary"
+                              href="mailto:info@huongque.vn"
+                              >info@huongque.vn</a
+                            >
+                          </li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h4 class="font-bold mb-4">Theo dõi chúng tôi</h4>
+                        <div class="flex space-x-4">
+                          <a
+                            class="text-text-muted-dark hover:text-primary transition-colors"
+                            data-alt="Facebook icon"
+                            href="#"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="w-6 h-6"
+                              fill="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                                fill-rule="evenodd"
+                              ></path>
+                            </svg>
+                          </a>
+                          <a
+                            class="text-text-muted-dark hover:text-primary transition-colors"
+                            data-alt="Instagram icon"
+                            href="#"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="w-6 h-6"
+                              fill="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.024.048-1.378.06-3.808.06s-2.784-.012-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049-1.064.218 1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 016.345 2.525c.636-.247 1.363-.416 2.427-.465C9.793 2.013 10.147 2 12.315 2zm-1.002 6.363a4.92 4.92 0 11-3.483 8.484 4.92 4.92 0 013.483-8.484zM12 14.85a2.85 2.85 0 100-5.7 2.85 2.85 0 000 5.7z"
+                                fill-rule="evenodd"
+                              ></path>
+                            </svg>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="border-t border-border-dark mt-8 pt-6 text-center text-sm text-text-muted-dark"
+                >
+                  <p>© 2024 Hương Quê. All rights reserved.</p>
+                </div>
+              </div>
+            </footer>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

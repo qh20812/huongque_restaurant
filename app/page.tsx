@@ -4,6 +4,7 @@ import SetMenuSection from './components/SetMenuSection'
 import IntroductionSection from './components/Intro'
 import CoreValuesSection from './components/CoreValue'
 import Footer from './components/Footer'
+import TeamSection from './components/TeamSection'
 
 export default function Home() {
   return (
@@ -23,6 +24,8 @@ export default function Home() {
                 <IntroductionSection />
                 {/* Core Values Section */}
                 <CoreValuesSection />
+                {/* Team Section */}
+                <TeamSection />
               </main>
               <Footer />
             </div>
